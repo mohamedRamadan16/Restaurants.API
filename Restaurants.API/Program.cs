@@ -1,3 +1,4 @@
+using Restaurants.Infrastructure.Extensions;
 
 namespace Restaurants.API
 {
@@ -8,6 +9,8 @@ namespace Restaurants.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddInfrastructure(builder.Configuration); // for sql server connection
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
