@@ -1,4 +1,5 @@
 using Restaurants.Infrastructure.Extensions;
+using Restaurants.Infrastructure.Seeders;
 
 namespace Restaurants.API
 {
@@ -18,6 +19,11 @@ namespace Restaurants.API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            /// seeding when start the application
+            var scope = app.Services.CreateScope();
+            var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
+            seeder.Seed();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
