@@ -14,6 +14,15 @@ namespace Restaurants.Application.Restaurants.DTOs
                 .ForMember(d => d.Street, opt => opt.MapFrom(src => (src.Address == null) ? null : src.Address.Street))
                 .ForMember(d => d.PostalCode, opt => opt.MapFrom(src => (src.Address == null) ? null : src.Address.PostalCode))
                 .ForMember(d => d.Dishes, opt => opt.MapFrom(src => src.Dishes));
+
+            CreateMap<CreateRestaurantDTO, Restaurant>()
+                .ForMember(d => d.Address, opt => opt.MapFrom(src => new Address
+                {
+                    City = src.City,
+                    Street = src.Street,
+                    PostalCode = src.PostalCode,
+                }));
+
         }
     }
 }
