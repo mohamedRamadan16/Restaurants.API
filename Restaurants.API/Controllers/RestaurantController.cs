@@ -5,7 +5,7 @@ using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("api/restaurant")]
     public class RestaurantController:ControllerBase
     {
@@ -37,8 +37,6 @@ namespace Restaurants.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CreateRestaurantDTO createRestaurantDTO)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid Data");
 
             int id = await _restaurantService.Create(createRestaurantDTO);
             return CreatedAtAction(nameof(Get), new { id }, null);
