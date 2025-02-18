@@ -13,14 +13,12 @@ namespace Restaurants.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-
         public async Task<int> CreateAsync(Restaurant restaurant)
         {
             await _dbContext.Restaurants.AddAsync(restaurant);
             await _dbContext.SaveChangesAsync(); 
             return restaurant.Id;
         }
-
         public async Task<Restaurant?> Get(int id)
         {
             var restaurant = await _dbContext.Restaurants
@@ -28,10 +26,23 @@ namespace Restaurants.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
             return restaurant;
         }
-
         public async Task<IEnumerable<Restaurant?>> GetAll()
         {
             return await _dbContext.Restaurants.ToListAsync();
         }
+
+        public async Task Delete(Restaurant restaurant)
+        {
+            _dbContext.Remove(restaurant);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task Update(Restaurant restaurant)
+        {
+            _dbContext.Restaurants.Update(restaurant);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task SaveChanges() => await _dbContext.SaveChangesAsync();
     }
 }
