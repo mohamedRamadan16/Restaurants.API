@@ -22,7 +22,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<RestaurantDTO>>> GetAll()
         {
 
             IEnumerable<RestaurantDTO> restaurants = await _mediator.Send(new GetAllRestaurantsQuery());
@@ -30,7 +30,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<RestaurantDTO?>> GetById(int id)
         {
             if (id <= 0)
                 return BadRequest("Enter a valid ID");
@@ -41,14 +41,20 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody]CreateRestaurantCommand createRestaurantCommand)
         {
+            if (createRestaurantCommand == null)
+                return BadRequest();
 
             int id = await _mediator.Send(createRestaurantCommand);
             return CreatedAtAction(nameof(GetById), new { id }, null);
         }
 
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             var isDeleted = await _mediator.Send(new DeleteRestaurantCommand(id));
@@ -58,6 +64,8 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPatch("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateRestaurant([FromRoute]int id, [FromBody]UpdateRestaurantCommand updateRestaurantCommand)
         {
             if (id <= 0)
