@@ -34,9 +34,8 @@ namespace Restaurants.API.Controllers
         {
             if (id <= 0)
                 return BadRequest("Enter a valid ID");
-            var restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));
-            if (restaurant == null)
-                return NotFound();
+
+            var restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));;
             return Ok(restaurant);
         }
 
@@ -57,10 +56,8 @@ namespace Restaurants.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var isDeleted = await _mediator.Send(new DeleteRestaurantCommand(id));
-            if (isDeleted)
-                return NoContent();
-            return NotFound();
+            await _mediator.Send(new DeleteRestaurantCommand(id));
+            return NoContent();
         }
 
         [HttpPatch("{id:int}")]
@@ -72,11 +69,9 @@ namespace Restaurants.API.Controllers
                 return BadRequest();
 
             updateRestaurantCommand.Id = id;
-            var isUpdated = await _mediator.Send(updateRestaurantCommand);
+            await _mediator.Send(updateRestaurantCommand);
+            return NoContent();
 
-            if (isUpdated)
-                return NoContent();
-            return NotFound();
         }
 
     }
