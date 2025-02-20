@@ -24,7 +24,7 @@ public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQu
     {
         if (request.Id <= 0)
             return null;
-        _logger.LogInformation($"Getting Restaurant with id = {request.Id}");
+        _logger.LogInformation("Getting Restaurant with id = {RestaurantId}", request.Id);
         var restaurant = await _restaurantRepository.Get(request.Id);
         var restaurantDTO = _mapper.Map<RestaurantDTO?>(restaurant);
         return restaurantDTO;
