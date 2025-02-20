@@ -28,6 +28,7 @@ namespace Restaurants.API
             );
 
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
+            builder.Services.AddScoped<TimeLogginMiddleware>();
 
             var app = builder.Build();
 
@@ -37,6 +38,7 @@ namespace Restaurants.API
             seeder.Seed();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<TimeLogginMiddleware>();
             app.UseSerilogRequestLogging();
 
             // Configure the HTTP request pipeline.
