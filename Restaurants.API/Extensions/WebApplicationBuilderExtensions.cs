@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using Restaurants.API.Middlewares;
+using Restaurants.API.User;
 using Serilog;
 
 namespace Restaurants.API.Extensions
@@ -35,6 +36,7 @@ namespace Restaurants.API.Extensions
 
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
             builder.Services.AddScoped<TimeLogginMiddleware>();
+
 
             builder.Host.UseSerilog((context, configuration) =>
                 configuration.ReadFrom.Configuration(context.Configuration)
