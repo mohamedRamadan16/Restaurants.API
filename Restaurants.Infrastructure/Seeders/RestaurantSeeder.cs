@@ -31,9 +31,16 @@ namespace Restaurants.Infrastructure.Seeders
         private IEnumerable<IdentityRole> GetRoles()
         {
             List<IdentityRole> roles = [
-                new(RolesConstant.User),
-                new(RolesConstant.Admin),
-                new(RolesConstant.Owner)
+                    new(RolesConstant.User){
+                        NormalizedName = RolesConstant.User.ToUpper()
+                    },
+                    new(RolesConstant.Admin){
+                        NormalizedName = RolesConstant.Admin.ToUpper()
+                    },
+                    new(RolesConstant.Owner)
+                    { 
+                        NormalizedName = RolesConstant.Owner.ToUpper()
+                    }
                 ];
             return roles;
         }
