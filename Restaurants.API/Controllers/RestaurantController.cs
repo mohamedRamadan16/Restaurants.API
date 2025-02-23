@@ -8,6 +8,7 @@ using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.DTOs;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
@@ -33,7 +34,6 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id:int}")]
-
         public async Task<ActionResult<RestaurantDTO?>> GetById(int id)
         {
             if (id <= 0)
@@ -44,6 +44,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RolesConstant.Owner)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody]CreateRestaurantCommand createRestaurantCommand)
