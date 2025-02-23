@@ -41,7 +41,9 @@ namespace Restaurants.API
 
             app.UseHttpsRedirection();
 
-            app.MapGroup("api/identity").MapIdentityApi<User>();
+            app.MapGroup("api/identity")
+                .WithTags("Identity")
+                .MapIdentityApi<User>();
 
             app.UseAuthorization();
 
