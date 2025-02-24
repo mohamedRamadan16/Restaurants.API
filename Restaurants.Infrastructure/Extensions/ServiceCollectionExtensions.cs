@@ -25,10 +25,17 @@ namespace Restaurants.Infrastructure.Extensions
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
 
+
+            services.AddAuthorizationBuilder()
+                .AddPolicy(PolicyNames.HasNationality, builder => builder.RequireClaim(AppClaimsTypes.Nationality, "Egyptian", "Palestinian"));
+
+
             services.AddIdentityApiEndpoints<User>()
                 .AddRoles<IdentityRole>()
                 .AddClaimsPrincipalFactory<RestaurantsUserClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<RestaurantDbContext>();
+
+
         }
     }
 }

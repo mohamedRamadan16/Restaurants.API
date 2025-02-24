@@ -1,6 +1,28 @@
 @Restaurants.API_HostAddress = http://localhost:5031
+@token = CfDJ8Kd9xensVMxMnzfuQmXDxRFx4YBkoZjkvoKtBcsOkSSnuobX9wyCe2yOdnY5BV__Io49-ZAkIpkUuvPyInya5H_HkxhTd7P9KhW-aE7-znPtT0duJkW4aKPUGupu0gUEP6--_KhyMZieORbWXr_JkxFcvQHIOvmjxq8MLeiHdsFWzuctP7TwQkputpPQHZtuhSpwoEFF1dJsIXYg5wVtpJDoG0PvaeZYlaz96Tf4nAsUm3erG3qxkBslbeNaAAGzMbxbBGnCQT1eAiCu3NBF3j63_bwN9c_drhV6a3ai8HhVyUAfU_0ONafHq5K4faZP7kweV_5Q5ZEUcq7HJza7VXkDvBXZuHJ57HAafl4-a5CbEGnXtx6RLR7H6bBTN_vTq4JHE02KsZlHNBtWsn-D0wPNteDXQCgkMi1M09i1waxUxEshnxfe31S2XJS4LpYoZQpP4xSCYVsy-dCXqRVpvlErlNxJEM3X1rqdmayoAaHLLlYOjgy9u_0S67j9VD3BIHqEASxUUEFtXoQHFg3v2mD0nfVWTWoFUCrzwRz29orzFoqMe0WXwJwVRUIeggHFBblSPvsOgc67iqU1mkC3bw9T8QYtmU85U0DdE0bjAa6SXGn2-_5QDawSw-w1jvEKs9oOXiNfT7hLifJUTjjlnzOsLU7dfdZpZ1UKpfeFeSmhos_92UF8MVMqRcs9qk3TDA
 
-GET {{Restaurants.API_HostAddress}}/weatherforecast/
-Accept: application/json
+Get {{Restaurants.API_HostAddress}}/api/restaurant
+//Authorization: Bearer {{token}}
 
 ###
+
+Get {{Restaurants.API_HostAddress}}/api/restaurant/3
+Authorization: Bearer {{token}}
+
+###
+
+Patch {{Restaurants.API_HostAddress}}/api/identity/user
+Authorization: Bearer {{token}}
+{
+  "dateOfBirth": "2025-02-24",
+  "nationality": "string"
+}
+
+###
+
+Post {{Restaurants.API_HostAddress}}/api/identity/login
+Content-type: application/json
+{
+  "email": "test@gmail.com",
+  "password": "Password123*"
+}

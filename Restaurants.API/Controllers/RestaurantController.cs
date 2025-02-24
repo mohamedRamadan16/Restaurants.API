@@ -10,6 +10,7 @@ using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers
 {
@@ -34,6 +35,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Policy = PolicyNames.HasNationality)]
         public async Task<ActionResult<RestaurantDTO?>> GetById(int id)
         {
             if (id <= 0)
