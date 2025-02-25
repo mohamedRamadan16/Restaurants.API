@@ -26,7 +26,7 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Policy = PolicyNames.HasAtLeastTwoRestaurants)]
         public async Task<ActionResult<IEnumerable<RestaurantDTO>>> GetAll()
         {
 
