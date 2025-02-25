@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
 using Restaurants.Domain.Exceptions;
 
 namespace Restaurants.API.Middlewares
@@ -16,6 +17,11 @@ namespace Restaurants.API.Middlewares
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFound.Message);
                 _logger.LogWarning(notFound.Message);
+            }
+            catch (ForbidException)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync("Access Frobidden :(");
             }
             catch (Exception ex)
             {
