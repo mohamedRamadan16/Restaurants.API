@@ -1,4 +1,6 @@
-﻿namespace Restaurants.Application.Users
+﻿using Restaurants.Domain.Entities;
+
+namespace Restaurants.Application.Users
 {
     public record CurrentUser(string Id, string Email, IEnumerable<string> Roles, string? Nationality, DateOnly? DateOfBirth)
     {
