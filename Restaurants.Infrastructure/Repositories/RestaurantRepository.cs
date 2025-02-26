@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Restaurants.Domain.Constants;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.IRepositories;
 using Restaurants.Infrastructure.Persistence;
+using System.Linq.Expressions;
 
 namespace Restaurants.Infrastructure.Repositories
 {
@@ -32,7 +34,7 @@ namespace Restaurants.Infrastructure.Repositories
             return await _dbContext.Restaurants.ToListAsync();
         }
 
-        public async Task<(IEnumerable<Restaurant>, int)> GetAllMatching(string? searchQuery, int pageNumber, int pageSize)
+        public async Task<(IEnumerable<Restaurant>, int)> GetAllMatching(string? searchQuery, int pageNumber, int pageSize, string? sortBy, SortOption sortOption = SortOption.Ascending)
         {
             if (pageNumber <= 0 || pageSize <= 0)
                 return ([], 0);
@@ -47,6 +49,19 @@ namespace Restaurants.Infrastructure.Repositories
                     .Where(r => (r.Name.ToLower().Contains(searchQueryLower)) || (r.Description.ToLower().Contains(searchQueryLower)));
             }
             var totalCount = query.Count();
+
+            if(sortBy != null)
+            {
+                var columnsSelector = new Dictionary<string, Expression<Func<Restaurant, object>>>
+                {
+                    { nameof(Restaurant.Name), r => r.Name },
+                    { nameof(Restaurant.Description), r => r.Description },
+                    { nameof(Restaurant.Category), r => r.Category },
+                };
+
+                var selector = columnsSelector[sortBy];
+                query = (sortOption == SortOption.Ascending) ? query.OrderBy(selector) : query.OrderByDescending(selector);
+            }
 
             /// Pagination
             var restaurants = await query.Skip(pageSize * (pageNumber - 1))
