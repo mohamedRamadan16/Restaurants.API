@@ -29,10 +29,7 @@ internal class GetAllRestaurantsQueryHandler : IRequestHandler<GetAllRestaurants
         IEnumerable<Restaurant?> restaurants;
         int totalCount = 0;
 
-        if(request.searchQuery == null || request.searchQuery == "")
-            restaurants = await _restaurantRepository.GetAll();
-        else
-            (restaurants, totalCount) = await _restaurantRepository.GetAllMatching(request.searchQuery, request.pageNumber, request.pageSize);
+        (restaurants, totalCount) = await _restaurantRepository.GetAllMatching(request.searchQuery, request.pageNumber, request.pageSize);
 
         var restaurantsDTOList = _mapper.Map<IEnumerable<RestaurantDTO>>(restaurants);
         var result = new PagedResults<RestaurantDTO>(restaurantsDTOList, request.pageNumber, request.pageSize, totalCount);
