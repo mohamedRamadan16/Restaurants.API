@@ -26,9 +26,16 @@ namespace Restaurants.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
             return restaurant;
         }
+
         public async Task<IEnumerable<Restaurant?>> GetAll()
         {
             return await _dbContext.Restaurants.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Restaurant>> GetAllMatching(string searchQuery)
+        {
+            var searchQueryLower = searchQuery.ToLower();
+            return await _dbContext.Restaurants.Where(r => (r.Name.ToLower().Contains(searchQueryLower)) || (r.Description.ToLower().Contains(searchQueryLower))).ToListAsync();
         }
 
         public async Task Delete(Restaurant restaurant)
@@ -44,5 +51,7 @@ namespace Restaurants.Infrastructure.Repositories
         }
 
         public async Task SaveChanges() => await _dbContext.SaveChangesAsync();
+
+
     }
 }
