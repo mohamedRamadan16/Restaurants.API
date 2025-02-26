@@ -32,10 +32,24 @@ namespace Restaurants.Infrastructure.Repositories
             return await _dbContext.Restaurants.ToListAsync();
         }
 
-        public async Task<IEnumerable<Restaurant>> GetAllMatching(string searchQuery)
+        public async Task<(IEnumerable<Restaurant>, int)> GetAllMatching(string searchQuery, int pageNumber, int pageSize)
         {
+            if (pageNumber <= 0 || pageSize <= 0)
+                return ([], 0);
+
             var searchQueryLower = searchQuery.ToLower();
-            return await _dbContext.Restaurants.Where(r => (r.Name.ToLower().Contains(searchQueryLower)) || (r.Description.ToLower().Contains(searchQueryLower))).ToListAsync();
+
+            var query = _dbContext.Restaurants
+                .Where(r => (r.Name.ToLower().Contains(searchQueryLower)) || (r.Description.ToLower().Contains(searchQueryLower)));
+
+            var totalCount = query.Count();
+
+            /// Pagination
+            var restaurants = await query.Skip(pageSize * (pageNumber - 1))
+                                .Take(pageSize)
+                                .ToListAsync();
+
+            return  (restaurants, totalCount);
         }
 
         public async Task Delete(Restaurant restaurant)
