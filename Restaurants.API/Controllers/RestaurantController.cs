@@ -26,11 +26,13 @@ namespace Restaurants.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = PolicyNames.HasAtLeastTwoRestaurants)]
-        public async Task<ActionResult<IEnumerable<RestaurantDTO>>> GetAll()
+        [AllowAnonymous]
+        //[Authorize(Policy = PolicyNames.HasAtLeastTwoRestaurants)]
+        public async Task<ActionResult<IEnumerable<RestaurantDTO>>> GetAll([FromQuery] string? searchQuery)
         {
-
-            IEnumerable<RestaurantDTO> restaurants = await _mediator.Send(new GetAllRestaurantsQuery());
+            GetAllRestaurantsQuery getAllRestaurantsQuery = new GetAllRestaurantsQuery();
+            getAllRestaurantsQuery.searchQuery = searchQuery;
+            IEnumerable<RestaurantDTO> restaurants = await _mediator.Send(getAllRestaurantsQuery);
             return Ok(restaurants);
         }
 
