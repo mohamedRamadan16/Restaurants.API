@@ -18,7 +18,7 @@ namespace Restaurants.Application.Users.Tests
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             var claims = new List<Claim>()
             {
-                new(ClaimTypes.NameIdentifier, "1"),
+                new(ClaimTypes.NameIdentifier, "2"),
                 new(ClaimTypes.Email, "test@test.com"),
                 new(ClaimTypes.Role, RolesConstant.Admin),
                 new(ClaimTypes.Role, RolesConstant.User),
